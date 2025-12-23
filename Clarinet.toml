@@ -1,0 +1,42 @@
+[project]
+name = "sbtc-defi-aggregator"
+description = "sBTC DeFi aggregator for yield optimization across Stacks protocols"
+authors = []
+telemetry = false
+cache_dir = "./.cache"
+requirements = []
+boot_contracts = ["pox-4"]
+
+[contracts.router]
+path = "contracts/router.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.vault-manager]
+path = "contracts/vault-manager.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.velar-adapter]
+path = "contracts/protocol-adapters/velar-adapter.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.alex-adapter]
+path = "contracts/protocol-adapters/alex-adapter.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.math-utils]
+path = "contracts/utils/math.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.access-control]
+path = "contracts/utils/access-control.clar"
+clarity_version = 2
+epoch = 2.5
+
+[repl]
+costs_version = 3
+parser_version = 2

@@ -1,0 +1,42 @@
+# Testnet Deployment Plan for sBTC DeFi Aggregator
+# Deployment order is important - dependencies must be deployed first
+
+id: 0
+name: sBTC DeFi Aggregator Testnet Deployment
+network: testnet
+stacks-node: "https://api.testnet.hiro.so"
+genesis:
+  - contract: math-utils
+    path: contracts/utils/math.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+  - contract: access-control
+    path: contracts/utils/access-control.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+  - contract: router
+    path: contracts/router.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+  - contract: vault-manager
+    path: contracts/vault-manager.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+  - contract: velar-adapter
+    path: contracts/protocol-adapters/velar-adapter.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+  - contract: alex-adapter
+    path: contracts/protocol-adapters/alex-adapter.clar
+    clarinet_version: 2
+    epoch: 2.5
+
+# Post-deployment steps:
+# 1. Register protocol adapters with router contract
+# 2. Set pool contracts in adapters
+# 3. Update frontend .env with deployed contract addresses

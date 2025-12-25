@@ -14,21 +14,16 @@
   (/ (* amount percentage) basis-points)
 )
 
-;; Calculate APY compound interest
-;; Returns final amount after applying APY for given periods
-(define-read-only (calculate-compound-interest
+;; Calculate simple interest for one period
+;; Returns final amount after applying APY for one period
+(define-read-only (calculate-simple-interest
   (principal uint)
-  (apy-bps uint)
-  (periods uint))
-  (if (is-eq periods u0)
-    principal
-    (let
-      (
-        (interest (calculate-percentage principal apy-bps))
-        (new-principal (+ principal interest))
-      )
-      (calculate-compound-interest new-principal apy-bps (- periods u1))
+  (apy-bps uint))
+  (let
+    (
+      (interest (calculate-percentage principal apy-bps))
     )
+    (+ principal interest)
   )
 )
 
@@ -70,7 +65,7 @@
   (total-value uint)
   (total-shares uint))
   (if (is-eq total-shares u0)
-    (ok basis-points) ;; Initial share price = 1.0
+    basis-points ;; Initial share price = 1.0
     (unwrap-panic (safe-divide (* total-value basis-points) total-shares))
   )
 )

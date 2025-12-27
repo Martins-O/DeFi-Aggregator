@@ -152,6 +152,26 @@ npm run build
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
+### Contract Deployment
+
+```bash
+# Deploy contracts to testnet
+npm run deploy:testnet
+
+# Register protocol adapters
+export DEPLOYER_ADDRESS="your_address"
+export DEPLOYER_PRIVATE_KEY="your_private_key"
+export NETWORK="testnet"
+npm run register-adapters
+
+# Check registration status
+npm run check-adapters
+```
+
+See [docs/ADAPTER_REGISTRATION.md](./docs/ADAPTER_REGISTRATION.md) for detailed adapter registration guide.
+
+### Frontend Deployment
+
 Quick deploy to Vercel:
 
 ```bash
@@ -184,6 +204,8 @@ Currently integrating:
 - [x] Wallet integration
 
 ### Phase 2 - Integration
+- [x] Protocol adapter registration system
+- [x] Adapter validation and status checking
 - [ ] Testnet deployment
 - [ ] Real protocol integration
 - [ ] APY data fetching

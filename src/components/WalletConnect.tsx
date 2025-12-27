@@ -1,27 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useWallet } from '@/contexts/WalletContext';
 
 export default function WalletConnect() {
-  const [isConnected, setIsConnected] = useState(false);
-  const [address, setAddress] = useState<string | null>(null);
-
-  const connectWallet = async () => {
-    try {
-      // Placeholder for Reown AppKit integration
-      // Will be implemented with actual Reown AppKit setup
-      console.log('Connecting wallet...');
-      setIsConnected(true);
-      setAddress('SP2...');
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-    }
-  };
-
-  const disconnectWallet = () => {
-    setIsConnected(false);
-    setAddress(null);
-  };
+  const { isConnected, address, connectWallet, disconnectWallet } = useWallet();
 
   return (
     <div className="flex items-center gap-4">

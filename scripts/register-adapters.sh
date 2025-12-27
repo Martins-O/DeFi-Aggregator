@@ -30,5 +30,38 @@ echo -e "${GREEN}Network: $NETWORK${NC}"
 echo -e "${GREEN}Deployer: $DEPLOYER_ADDRESS${NC}"
 echo ""
 
-# TODO: Add adapter registration logic
-echo "Registration script initialized..."
+# Check if private key is set
+if [ -z "$DEPLOYER_PRIVATE_KEY" ]; then
+    echo -e "${RED}Error: DEPLOYER_PRIVATE_KEY not set${NC}"
+    echo "Export your deployer private key: export DEPLOYER_PRIVATE_KEY=your_private_key"
+    exit 1
+fi
+
+# Check if ts-node is available
+if ! command -v ts-node &> /dev/null; then
+    echo -e "${YELLOW}ts-node not found, installing dependencies...${NC}"
+    npm install
+fi
+
+# Run the TypeScript registration script
+echo -e "${GREEN}Running registration script...${NC}"
+echo ""
+
+export NETWORK=$NETWORK
+export DEPLOYER_ADDRESS=$DEPLOYER_ADDRESS
+export DEPLOYER_PRIVATE_KEY=$DEPLOYER_PRIVATE_KEY
+
+ts-node "$(dirname "$0")/run-registration.ts"
+
+if [ $? -eq 0 ]; then
+    echo ""
+    echo -e "${GREEN}=================================="
+    echo -e "Registration completed successfully!"
+    echo -e "==================================${NC}"
+else
+    echo ""
+    echo -e "${RED}=================================="
+    echo -e "Registration failed!"
+    echo -e "==================================${NC}"
+    exit 1
+fi

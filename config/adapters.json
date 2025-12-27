@@ -1,0 +1,48 @@
+{
+  "adapters": [
+    {
+      "id": "velar",
+      "name": "Velar",
+      "contractName": "velar-adapter",
+      "description": "DEX liquidity provision on Velar",
+      "enabled": true,
+      "poolContracts": {
+        "testnet": "",
+        "mainnet": ""
+      }
+    },
+    {
+      "id": "alex",
+      "name": "ALEX",
+      "contractName": "alex-adapter",
+      "description": "Lending and borrowing on ALEX",
+      "enabled": true,
+      "poolContracts": {
+        "testnet": "",
+        "mainnet": ""
+      }
+    },
+    {
+      "id": "bitflow",
+      "name": "Bitflow",
+      "contractName": "bitflow-adapter",
+      "description": "Liquidity pools on Bitflow",
+      "enabled": false,
+      "poolContracts": {
+        "testnet": "",
+        "mainnet": ""
+      }
+    },
+    {
+      "id": "zest",
+      "name": "Zest",
+      "contractName": "zest-adapter",
+      "description": "Bitcoin-backed lending on Zest",
+      "enabled": false,
+      "poolContracts": {
+        "testnet": "",
+        "mainnet": ""
+      }
+    }
+  ]
+}

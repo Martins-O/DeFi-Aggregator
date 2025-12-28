@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useWallet } from '@/contexts/WalletContext';
+import { useAccountBalance } from '@/hooks/useAccountBalance';
 
 interface TransactionModalProps {
   isOpen: boolean;
@@ -19,11 +21,25 @@ export default function TransactionModal({
 }: TransactionModalProps) {
   const [amount, setAmount] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const { isConnected, connectWallet } = useWallet();
+  const { unlocked } = useAccountBalance();
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isConnected) {
+      connectWallet();
+      return;
+    }
+
+    const amountNum = parseFloat(amount);
+    if (type === 'deposit' && amountNum > unlocked) {
+      alert('Insufficient balance');
+      return;
+    }
+
     setIsProcessing(true);
     try {
       await onConfirm(amount);
@@ -33,6 +49,12 @@ export default function TransactionModal({
       console.error('Transaction failed:', error);
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const setMaxAmount = () => {
+    if (type === 'deposit' && unlocked > 0) {
+      setAmount(unlocked.toString());
     }
   };
 
@@ -64,9 +86,20 @@ export default function TransactionModal({
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm text-gray-400 mb-2">
-              Amount (sBTC)
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm text-gray-400">
+                Amount (sBTC)
+              </label>
+              {isConnected && type === 'deposit' && (
+                <button
+                  type="button"
+                  onClick={setMaxAmount}
+                  className="text-xs text-orange-500 hover:text-orange-400"
+                >
+                  Max: {unlocked.toFixed(4)} STX
+                </button>
+              )}
+            </div>
             <input
               type="number"
               step="0.00000001"
@@ -92,7 +125,11 @@ export default function TransactionModal({
               className="flex-1 px-4 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isProcessing}
             >
-              {isProcessing ? 'Processing...' : 'Confirm'}
+              {!isConnected
+                ? 'Connect Wallet'
+                : isProcessing
+                ? 'Processing...'
+                : 'Confirm'}
             </button>
           </div>
         </form>

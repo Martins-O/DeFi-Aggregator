@@ -54,3 +54,61 @@ Clarinet.test({
         assertEquals(apy, 850);
     },
 });
+
+Clarinet.test({
+    name: "Velar Adapter: Set pool contract",
+    async fn(chain: Chain, accounts: Map<string, Account>) {
+        const deployer = accounts.get('deployer')!;
+        const poolContract = `${deployer.address}.velar-pool`;
+
+        let block = chain.mineBlock([
+            Tx.contractCall(
+                'velar-adapter',
+                'set-pool-contract',
+                [types.principal(poolContract)],
+                deployer.address
+            )
+        ]);
+
+        block.receipts[0].result.expectOk().expectBool(true);
+    },
+});
+
+Clarinet.test({
+    name: "ALEX Adapter: Set pool contract",
+    async fn(chain: Chain, accounts: Map<string, Account>) {
+        const deployer = accounts.get('deployer')!;
+        const poolContract = `${deployer.address}.alex-pool`;
+
+        let block = chain.mineBlock([
+            Tx.contractCall(
+                'alex-adapter',
+                'set-pool-contract',
+                [types.principal(poolContract)],
+                deployer.address
+            )
+        ]);
+
+        block.receipts[0].result.expectOk().expectBool(true);
+    },
+});
+
+Clarinet.test({
+    name: "Adapters: Prevent non-owner from setting pool",
+    async fn(chain: Chain, accounts: Map<string, Account>) {
+        const deployer = accounts.get('deployer')!;
+        const wallet1 = accounts.get('wallet_1')!;
+        const poolContract = `${deployer.address}.velar-pool`;
+
+        let block = chain.mineBlock([
+            Tx.contractCall(
+                'velar-adapter',
+                'set-pool-contract',
+                [types.principal(poolContract)],
+                wallet1.address
+            )
+        ]);
+
+        block.receipts[0].result.expectErr().expectUint(100);
+    },
+});

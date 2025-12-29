@@ -49,6 +49,9 @@ cp .env.example .env.local
 
 # Run development server
 npm run dev
+
+# Run tests
+npm test
 ```
 
 Visit `http://localhost:3000` to see the app.

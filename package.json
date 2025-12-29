@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "bash scripts/run-tests.sh",
+    "test:watch": "clarinet test --watch",
     "register-adapters": "ts-node scripts/run-registration.ts",
     "check-adapters": "ts-node scripts/check-registration-status.ts",
     "deploy:testnet": "bash scripts/deploy-testnet.sh",
